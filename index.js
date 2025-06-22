@@ -79,7 +79,7 @@ async function main() {
     active: false,
     x: 0,
     y: 0,
-    size: 1,
+    size: 3,
     lastActivation: Number.NEGATIVE_INFINITY,
     activationCooldownMS: 1,
   };
