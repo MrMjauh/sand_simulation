@@ -16,7 +16,6 @@ function createParticles(context, startX, startY, radius) {
       const particle = new Graphics(context);
       particle.__physics = {
         isStatic: false,
-        staticCount: 0,
       };
       particle.position.set(x, y);
       particles.push(particle);
@@ -26,7 +25,9 @@ function createParticles(context, startX, startY, radius) {
   return particles;
 }
 
-function physicsLoop(activeParticles, grid, maxX, maxY) {
+function physicsLoop(activeParticles, grid) {
+  const maxY = grid.length;
+  const maxX = grid[0].length;
   const deltaY = 1;
   for (let i = activeParticles.length-1; i >= 0; i--) {
     const particle = activeParticles[i];
@@ -113,7 +114,6 @@ async function main() {
   app.stage.addChild(container);
 
   let time = 0;
-  let tick = 0;
   app.ticker.add((delta) => {
     if (
       brush.active &&
@@ -144,11 +144,10 @@ async function main() {
       }
     }
     
-    physicsLoop(activeParticles, grid, width, height);
+    physicsLoop(activeParticles, grid);
     // The other particles we just remove, add them into an inactivity list if needed
     activeParticles = activeParticles.filter((particle) => !particle.__physics.isStatic);
     
-    tick++;
     time += delta.elapsedMS;
   });
 }
